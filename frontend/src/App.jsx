@@ -1,6 +1,7 @@
 import { MdDelete } from "react-icons/md";
-import { FaCheck } from "react-icons/fa";
+import { FaCheck, FaCross } from "react-icons/fa";
 import { MdEdit } from "react-icons/md";
+import { toast } from 'react-toastify';
 import './App.css'
 import { useState,useEffect } from 'react';
 function App() {
@@ -44,6 +45,7 @@ function App() {
     console.log(data.message);
     setinputtask("");
     getalltasks();
+    toast.success("posted successfullY");
    } catch (error) {
       console.log("eroor in sending requres to backend");
       console.log(error);      
@@ -60,6 +62,7 @@ function App() {
       let data=await res.json();
       console.log(data);
       getalltasks();
+      toast.success("delted successfully");
     } catch (error) {
       console.log("eroor in sending requres to backend");
       console.log(error); 
@@ -76,9 +79,24 @@ function App() {
     let data=await res.json();
     console.log(data);
     getalltasks();
+    toast.success("marked as done")
     } catch (error) {
       console.log("eroor in sending requres to backend");
       console.log(error); 
+    }
+  }
+  // undone
+  async function markasundone(id){
+    try {
+      let res=await fetch(`http://localhost:3000/markundone/${id}`,{
+        method:"GET",
+      })
+      let data=res.json();
+      console.log(data);
+      toast.success("unmarked");
+      getalltasks();
+    } catch (error) {
+      console.log(error);
     }
   }
 let style={textDecoration:'line-through'};
@@ -93,8 +111,7 @@ let style={textDecoration:'line-through'};
               {ta.isdone ? (<div> <p style={style}>{ta.task}</p></div> ):(<div> <p>{ta.task}</p> </div>)} 
               <div>
               <MdDelete onClick={()=>deletebtn(ta._id)} /> 
-              <FaCheck onClick={()=>markasdone(ta._id)} /> 
-              <MdEdit />
+              {ta.isdone? (<FaCross onClick={()=>markasundone(ta._id)} />):(<FaCheck onClick={()=>markasdone(ta._id)} />) } 
               </div>
               </div> 
             })}
