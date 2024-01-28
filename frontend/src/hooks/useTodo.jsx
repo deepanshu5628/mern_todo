@@ -69,13 +69,13 @@ function useTodo(){
   
     // markasdone 
     async function markasdone(id){
-      console.log(id);
+      // console.log(id);
       try {
         let res=await fetch(`http://localhost:3000/markdone/${id}`,{
         method:"GET",
         });
       let data=await res.json();
-      console.log(data);
+      // console.log(data);
       getalltasks();
       toast.success("marked as done")
       } catch (error) {
@@ -89,8 +89,8 @@ function useTodo(){
         let res=await fetch(`http://localhost:3000/markundone/${id}`,{
           method:"GET",
         })
-        let data=res.json();
-        console.log(data);
+        let data=await res.json();
+        // console.log(data);
         toast.success("unmarked");
         getalltasks();
       } catch (error) {
