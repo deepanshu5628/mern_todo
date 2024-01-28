@@ -31,6 +31,10 @@ function App() {
 
     // post request 
     async  function addtaskbtn(){
+      if(inputtask.length===0){
+        return toast.warning("kuch likh to le mc ");
+        
+      }
     try {
       let res= await fetch("http://localhost:3000/task",{
       method:"POST",
